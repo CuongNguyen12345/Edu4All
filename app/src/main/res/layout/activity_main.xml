@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_yellow"
-    tools:context=".MainActivity">
+    tools:context=".Activity.MainActivity">
 
     <!-- PHẦN TRÊN: NỀN VÀ LOGO -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -142,7 +142,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
-                android:background="#FFFFFF"
+                android:background="@drawable/edt_login"
                 android:backgroundTintMode="src_over"
                 android:gravity="center"
                 android:orientation="horizontal"
@@ -166,7 +166,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
-                android:background="#FFFFFF"
+                android:background="@drawable/edt_login"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="8dp">
@@ -189,11 +189,13 @@
             android:id="@+id/tvSignup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="20dp"
             android:text="Chưa có tài khoản? Đăng ký ngay."
             android:textColor="#FFFFFF"
             android:textSize="14sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.503"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/llSocial" />
     </androidx.constraintlayout.widget.ConstraintLayout>
