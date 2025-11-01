@@ -35,8 +35,13 @@ dependencies {
 
     val roomVersion = "2.6.1"
 
+    compileOnly("org.projectlombok:lombok:1.18.34")
+    annotationProcessor("org.projectlombok:lombok:1.18.34")
+    
     implementation("androidx.room:room-runtime:$roomVersion")
     annotationProcessor("androidx.room:room-compiler:$roomVersion")
+
+
 
     implementation(libs.appcompat)
     implementation(libs.material)
