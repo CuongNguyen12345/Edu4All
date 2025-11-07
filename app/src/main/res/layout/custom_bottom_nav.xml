@@ -1,83 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
     android:background="#FFD700"
     android:gravity="center"
-    android:padding="8dp"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:orientation="horizontal"
+    android:padding="8dp">
 
     <LinearLayout
         android:id="@+id/nav_home"
-        android:orientation="vertical"
-        android:gravity="center"
         android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:layout_height="wrap_content">
+        android:gravity="center"
+        android:orientation="vertical">
+
         <ImageView
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:src="@drawable/house_solid_full"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
             android:tint="@android:color/white" />
 
         <TextView
+            android:layout_width="38dp"
+            android:layout_height="11dp"
             android:text="Trang chủ"
-            android:textColor="@android:color/white"
-            android:textSize="30sp" />
+            android:textColor="#fff"
+            android:textSize="8sp" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/nav_search"
-        android:orientation="vertical"
-        android:gravity="center"
         android:layout_width="0dp"
+        android:layout_height="39dp"
         android:layout_weight="1"
-        android:layout_height="wrap_content">
+        android:gravity="center"
+        android:orientation="vertical">
+
         <ImageView
-            android:src="@drawable/ic_search"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/magnifying_glass_solid_full"
             android:tint="@android:color/white" />
+
         <TextView
-            android:text="Tìm kiếm"
+            android:layout_width="wrap_content"
+            android:layout_height="11dp"
+            android:text="Tìm kiếm bài học"
             android:textColor="@android:color/white"
-            android:textSize="12sp" />
+            android:textSize="8sp" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/nav_save"
-        android:orientation="vertical"
-        android:gravity="center"
         android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:layout_height="wrap_content">
+        android:gravity="center"
+        android:orientation="vertical">
+
         <ImageView
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:src="@drawable/book_bookmark_solid_full"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
             android:tint="@android:color/white" />
+
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="11dp"
             android:text="Lưu bài học"
             android:textColor="@android:color/white"
-            android:textSize="12sp" />
+            android:textSize="8sp" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/nav_settings"
-        android:orientation="vertical"
-        android:gravity="center"
         android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:layout_height="wrap_content">
+        android:gravity="center"
+        android:orientation="vertical">
+
         <ImageView
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:src="@drawable/gear_solid_full"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
             android:tint="@android:color/white" />
+
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="11dp"
             android:text="Cài đặt"
             android:textColor="@android:color/white"
-            android:textSize="12sp" />
+            android:textSize="8sp" />
     </LinearLayout>
 
 </LinearLayout>
