@@ -1,8 +1,12 @@
 package com.example.myapplication.Activity;
 
+import static android.widget.Toast.LENGTH_SHORT;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +14,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.myapplication.Database.AppDatabase;
+import com.example.myapplication.Entity.UserEntity;
 import com.example.myapplication.R;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -25,11 +31,58 @@ public class RegisterActivity extends AppCompatActivity {
 
         init();
 
+
+        btnRegister.setOnClickListener(v -> {
+            clickHandleRegister();
+        });
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    private void clickHandleRegister() {
+        String email = editEmail.getText().toString().trim();
+        String username = edtUsername.getText().toString().trim();
+        String password = edtPassword.getText().toString().trim();
+        String confirmPassword = edtConfirmPassword.getText().toString().trim();
+
+        if(email.isEmpty()) {
+            editEmail.setError("Vui lòng nhập email!");
+            return;
+        }
+        if(username.isEmpty()) {
+            edtUsername.setError("Vui lòng nhập tên đăng nhập!");
+            return;
+        }
+        if(password.isEmpty()) {
+            edtPassword.setError("Hãy nhập mật khẩu!");
+            return;
+        }
+        if(confirmPassword.isEmpty()) {
+            edtConfirmPassword.setError("Nhập lại mật khẩu!");
+            return;
+        }
+        else {
+            if(!password.equals(confirmPassword)) {
+                edtConfirmPassword.setError("Mật khẩu nhập lại không đúng!");
+                return;
+            }
+        }
+
+        UserEntity user = new UserEntity(email, username, password);
+        AppDatabase.getInstance(this).userDao().insertUser(user);
+
+        Toast.makeText(this, "Đăng ký thành công", LENGTH_SHORT).show();
+
+        UserEntity entity = AppDatabase.getInstance(this).userDao().getUserByName(username);
+        Intent intent = new Intent(this, HomeActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("user", entity);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     private void init() {

@@ -28,6 +28,13 @@ public class MainActivity extends AppCompatActivity {
 
         init();
 
+
+
+        btnLogin.setOnClickListener(v -> {
+            String username = edtUserName.getText().toString();
+            String password = edtPassword.getText().toString();
+        });
+
         tvSignup.setOnClickListener(v -> {
             handleClickSignup();
         });
