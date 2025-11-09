@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase;
 import com.example.myapplication.Dao.UserDao;
 import com.example.myapplication.Entity.UserEntity;
 
-@Database(entities = {UserEntity.class}, version = 1)
+@Database(entities = {UserEntity.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase INSTANCE;
     public static synchronized AppDatabase getInstance(Context context) {
@@ -17,6 +17,7 @@ public abstract class AppDatabase extends RoomDatabase {
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             AppDatabase.class, "app_db")
                     .allowMainThreadQueries() // ⚠️ chỉ dùng khi demo
+                    .fallbackToDestructiveMigration()
                     .build();
         }
         return INSTANCE;

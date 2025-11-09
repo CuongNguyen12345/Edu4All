@@ -18,6 +18,8 @@ import com.example.myapplication.Database.AppDatabase;
 import com.example.myapplication.Entity.UserEntity;
 import com.example.myapplication.R;
 
+import java.util.List;
+
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText editEmail, edtUsername, edtPassword, edtConfirmPassword;
@@ -72,12 +74,13 @@ public class RegisterActivity extends AppCompatActivity {
             }
         }
 
-        UserEntity user = new UserEntity(email, username, password);
-        AppDatabase.getInstance(this).userDao().insertUser(user);
+        UserEntity user = new UserEntity(username, email, password);
+        AppDatabase.getInstance(RegisterActivity.this).userDao().insertUser(user);
 
         Toast.makeText(this, "Đăng ký thành công", LENGTH_SHORT).show();
 
-        UserEntity entity = AppDatabase.getInstance(this).userDao().getUserByName(username);
+        List<UserEntity> l = AppDatabase.getInstance(RegisterActivity.this).userDao().getAllUsers();
+        UserEntity entity = AppDatabase.getInstance(RegisterActivity.this).userDao().getUserByUsername(username);
         Intent intent = new Intent(this, HomeActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("user", entity);

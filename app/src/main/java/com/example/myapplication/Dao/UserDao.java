@@ -15,8 +15,8 @@ public interface UserDao {
     @Query("SELECT * FROM users")
     List<UserEntity> getAllUsers();
 
-    @Query("SELECT * FROM users WHERE name =:name")
-    UserEntity getUserByName(String name);
+    @Query("SELECT * FROM users WHERE username =:username")
+    UserEntity getUserByUsername(String username);
 
     @Insert
     void insertUser(UserEntity user);

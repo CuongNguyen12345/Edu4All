@@ -18,7 +18,7 @@ import lombok.Setter;
 public class UserEntity implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private int id;
-    private String name;
+    private String username;
     private String email;
     private String password;
 
@@ -26,8 +26,8 @@ public class UserEntity implements Serializable {
 
     }
 
-    public UserEntity(String name, String email, String password) {
-        this.name = name;
+    public UserEntity(String username, String email, String password) {
+        this.username = username;
         this.email = email;
         this.password = password;
     }

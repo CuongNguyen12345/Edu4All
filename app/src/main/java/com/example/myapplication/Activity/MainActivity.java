@@ -1,10 +1,13 @@
 package com.example.myapplication.Activity;
 
+import static android.widget.Toast.LENGTH_SHORT;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,7 +15,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.myapplication.Database.AppDatabase;
+import com.example.myapplication.Entity.UserEntity;
 import com.example.myapplication.R;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,9 +38,25 @@ public class MainActivity extends AppCompatActivity {
 
 
         btnLogin.setOnClickListener(v -> {
+            List<UserEntity> l = AppDatabase.getInstance(MainActivity.this).userDao().getAllUsers();
             String username = edtUserName.getText().toString();
             String password = edtPassword.getText().toString();
+            UserEntity user = AppDatabase.getInstance(MainActivity.this).userDao().getUserByUsername(username);
+            if(username.equals(user.getUsername()) && password.equals(user.getPassword())) {
+                Intent intent = new Intent(this, HomeActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("user", user);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                Toast.makeText(this, "Đăng nhập thành công", LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(this, "Sai tên đăng nhập hoặc mật khẩu", LENGTH_SHORT).show();
+                return;
+            }
         });
+
+
 
         tvSignup.setOnClickListener(v -> {
             handleClickSignup();

@@ -25,7 +25,7 @@ public class HomeActivity extends AppCompatActivity {
         tvWelcome = findViewById(R.id.tvWelcome);
 
         UserEntity user = (UserEntity) getIntent().getSerializableExtra("user");
-        tvWelcome.setText("Xin chào, " + user.getName() + "!");
+        tvWelcome.setText("Xin chào, " + user.getUsername() + "!");
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
