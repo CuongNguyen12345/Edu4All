@@ -79,7 +79,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         Toast.makeText(this, "Đăng ký thành công", LENGTH_SHORT).show();
 
-        List<UserEntity> l = AppDatabase.getInstance(RegisterActivity.this).userDao().getAllUsers();
         UserEntity entity = AppDatabase.getInstance(RegisterActivity.this).userDao().getUserByUsername(username);
         Intent intent = new Intent(this, HomeActivity.class);
         Bundle bundle = new Bundle();

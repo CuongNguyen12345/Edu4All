@@ -35,31 +35,16 @@ public class MainActivity extends AppCompatActivity {
 
         init();
 
-
-
         btnLogin.setOnClickListener(v -> {
-            List<UserEntity> l = AppDatabase.getInstance(MainActivity.this).userDao().getAllUsers();
-            String username = edtUserName.getText().toString();
-            String password = edtPassword.getText().toString();
-            UserEntity user = AppDatabase.getInstance(MainActivity.this).userDao().getUserByUsername(username);
-            if(username.equals(user.getUsername()) && password.equals(user.getPassword())) {
-                Intent intent = new Intent(this, HomeActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("user", user);
-                intent.putExtras(bundle);
-                startActivity(intent);
-                Toast.makeText(this, "Đăng nhập thành công", LENGTH_SHORT).show();
-            }
-            else {
-                Toast.makeText(this, "Sai tên đăng nhập hoặc mật khẩu", LENGTH_SHORT).show();
-                return;
-            }
+            handleClickSignup();
         });
 
-
-
         tvSignup.setOnClickListener(v -> {
-            handleClickSignup();
+            handleClickRegister();
+        });
+
+        tvForgot.setOnClickListener(v -> {
+            handleClickForgot();
         });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -70,6 +55,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void handleClickSignup() {
+        String username = edtUserName.getText().toString();
+        String password = edtPassword.getText().toString();
+        UserEntity user = AppDatabase.getInstance(MainActivity.this).userDao().getUserByUsername(username);
+        if(username.equals(user.getUsername()) && password.equals(user.getPassword())) {
+            Intent intent = new Intent(this, HomeActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("user", user);
+            intent.putExtras(bundle);
+            startActivity(intent);
+            Toast.makeText(this, "Đăng nhập thành công", LENGTH_SHORT).show();
+        }
+        else {
+            Toast.makeText(this, "Sai tên đăng nhập hoặc mật khẩu", LENGTH_SHORT).show();
+            return;
+        }
+    }
+
+    private void handleClickForgot() {
+        Intent intent = new Intent(MainActivity.this, ResetPasswordActivity.class);
+        startActivity(intent);
+    }
+
+    private void handleClickRegister() {
         Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
         startActivity(intent);
     }
