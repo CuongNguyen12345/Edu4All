@@ -28,6 +28,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
     private final String appPassword = "fgcodsgcboyedlbz";
     private Button btnCancel, btnConfirm;
     private EditText etEmail;
+    private String OTP = generateOTP();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,12 +73,11 @@ public class ResetPasswordActivity extends AppCompatActivity {
             }
         });
 
-        String otp = generateOTP();
         Message message = new MimeMessage(session);
         message.setFrom(new InternetAddress(senderEmail));
         message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(userEmail));
         message.setSubject("Mã xác nhận đổi mật khẩu");
-        message.setText("Mã OTP của bạn là: " + otp);
+        message.setText("Mã OTP của bạn là: " + OTP);
 
         Transport.send(message);
     }
@@ -90,6 +90,8 @@ public class ResetPasswordActivity extends AppCompatActivity {
                     sendMail(email);
                     runOnUiThread(() -> {
                         Intent intent = new Intent(ResetPasswordActivity.this, VerifyCodeActivity.class);
+                        intent.putExtra("otp", OTP);
+                        intent.putExtra("email", email);
                         startActivity(intent);
                     });
                 } catch (MessagingException e) {
