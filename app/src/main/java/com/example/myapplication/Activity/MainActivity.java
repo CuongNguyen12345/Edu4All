@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         init();
+        UserDao dao = AppDatabase.getInstance(MainActivity.this).userDao();
 
         btnLogin.setOnClickListener(v -> {
             handleClickSignup();
