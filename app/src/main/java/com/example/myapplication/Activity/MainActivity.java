@@ -21,17 +21,11 @@ import com.example.myapplication.R;
 public class MainActivity extends AppCompatActivity {
 
     private EditText edtUserName, edtPassword;
-    private Button btnLogin;
-    private TextView tvForgot, tvSignup;
-    private LinearLayout btnGoogleLogin, btnFacebookLogin;
-    private SharedPrefManager sharedPrefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        sharedPrefManager = new SharedPrefManager(this);
 
         initViews();
         setupListeners();
@@ -40,16 +34,14 @@ public class MainActivity extends AppCompatActivity {
     private void initViews() {
         edtUserName = findViewById(R.id.edtUsername);
         edtPassword = findViewById(R.id.edtPassword);
-        btnLogin = findViewById(R.id.btnLogin);
-        tvForgot = findViewById(R.id.tvForgot);
-        tvSignup = findViewById(R.id.tvSignup);
-        btnGoogleLogin = findViewById(R.id.btnGoogleLogin);
-        btnFacebookLogin = findViewById(R.id.btnFacebookLogin);
     }
 
     private void setupListeners() {
-        btnLogin.setOnClickListener(v -> handleLogin());
-        // ... other listeners
+        findViewById(R.id.btnLogin).setOnClickListener(v -> handleLogin());
+        findViewById(R.id.tvSignup).setOnClickListener(v -> handleRegister());
+        findViewById(R.id.tvForgot).setOnClickListener(v -> handleForgotPassword());
+        findViewById(R.id.btnGoogleLogin).setOnClickListener(v -> handleSocialLogin("Google"));
+        findViewById(R.id.btnFacebookLogin).setOnClickListener(v -> handleSocialLogin("Facebook"));
     }
 
     private void handleLogin() {
@@ -65,14 +57,13 @@ public class MainActivity extends AppCompatActivity {
 
         if (user != null && user.getPassword().equals(password)) {
             Toast.makeText(this, "Đăng nhập thành công", LENGTH_SHORT).show();
-
-            // CORRECTED: Save username to SharedPreferences on successful login
+            
+            // Save user stats to SharedPreferences
+            SharedPrefManager sharedPrefManager = new SharedPrefManager(this);
             sharedPrefManager.saveUsername(user.getUsername());
 
             Intent intent = new Intent(this, HomeActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("user", user);
-            intent.putExtras(bundle);
+            intent.putExtra("user", user);
             startActivity(intent);
             finish();
         } else {
@@ -80,5 +71,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // ... other methods
+    private void handleRegister() {
+        startActivity(new Intent(this, RegisterActivity.class));
+    }
+
+    private void handleForgotPassword() {
+        startActivity(new Intent(this, ResetPasswordActivity.class));
+    }
+
+    private void handleSocialLogin(String provider) {
+        Toast.makeText(this, "Tính năng đăng nhập bằng " + provider + " đang được phát triển!", LENGTH_SHORT).show();
+    }
 }

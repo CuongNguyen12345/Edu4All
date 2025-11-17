@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark Theme Colors -->
+
+    <!-- Primary colors -->
+    <color name="color_yellow">#FFC107</color>
+    <color name="primary_blue">#42A5F5</color> 
+
+    <!-- General UI -->
+    <color name="light_gray_background">#121212</color>
+    <color name="white">#212121</color> 
+
+    <!-- Text -->
+    <color name="color_text">#BDBDBD</color>
+    <color name="dark_red_text">#EF9A9A</color>
+
+    <!-- Subject Colors -->
+    <color name="subject_red">#E57373</color>
+    <color name="subject_blue">#64B5F6</color>
+    <color name="subject_orange">#FFB74D</color>
+    <color name="subject_teal">#4DB6AC</color>
+    <color name="subject_green">#81C784</color>
+    <color name="subject_brown">#A1887F</color>
+
+</resources>

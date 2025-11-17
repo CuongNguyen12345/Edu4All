@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.Activity; // CORRECTED: Changed the package
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -11,6 +11,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.myapplication.Database.AppDatabase;
 import com.example.myapplication.Entity.UserEntity;
 import com.example.myapplication.Manager.SharedPrefManager;
+import com.example.myapplication.R;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class ChangePasswordActivity extends AppCompatActivity {
@@ -54,7 +55,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
         if (username != null) {
             currentUser = appDatabase.userDao().getUserByUsername(username);
         } else {
-            // This case should ideally not happen if the user is logged in.
             Toast.makeText(this, "Lỗi: Không thể xác thực người dùng!", Toast.LENGTH_LONG).show();
             finish();
         }
@@ -85,18 +85,16 @@ public class ChangePasswordActivity extends AppCompatActivity {
             return;
         }
 
-        // Check if the current password is correct
         if (!currentUser.getPassword().equals(currentPassword)) {
             Toast.makeText(this, "Mật khẩu hiện tại không đúng!", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Update the password in the database
         currentUser.setPassword(newPassword);
         appDatabase.userDao().updateUser(currentUser);
 
         Toast.makeText(this, "Đổi mật khẩu thành công!", Toast.LENGTH_SHORT).show();
-        finish(); // Go back to the settings screen
+        finish(); 
     }
 
     @Override

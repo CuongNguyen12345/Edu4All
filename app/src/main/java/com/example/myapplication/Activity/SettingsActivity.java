@@ -2,8 +2,7 @@ package com.example.myapplication.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.Button; // CORRECTED: Added this import
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +14,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.myapplication.Manager.SharedPrefManager;
 import com.example.myapplication.R;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -23,8 +23,10 @@ public class SettingsActivity extends AppCompatActivity {
 
     private SharedPrefManager sharedPrefManager;
     private SwitchMaterial switchDarkMode;
-    private LinearLayout darkModeLayout;
+    private MaterialCardView darkModeLayout;
     private TextView tvDarkModeDescription;
+    private MaterialCardView cardChangePassword;
+    private Button btnLogout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,8 +51,8 @@ public class SettingsActivity extends AppCompatActivity {
         switchDarkMode = findViewById(R.id.switchDarkMode);
         darkModeLayout = findViewById(R.id.setting_dark_mode_layout);
         tvDarkModeDescription = findViewById(R.id.tvDarkModeDescription);
-        findViewById(R.id.setting_change_password);
-        findViewById(R.id.setting_logout);
+        cardChangePassword = findViewById(R.id.setting_change_password);
+        btnLogout = findViewById(R.id.setting_logout);
     }
 
     private void checkDarkModeUnlock() {
@@ -58,10 +60,10 @@ public class SettingsActivity extends AppCompatActivity {
         boolean isUnlocked = userLevel >= LEVEL_TO_UNLOCK_DARK_MODE;
 
         switchDarkMode.setEnabled(isUnlocked);
+        darkModeLayout.setAlpha(isUnlocked ? 1.0f : 0.5f);
 
         if (isUnlocked) {
             tvDarkModeDescription.setText(R.string.setting_dark_mode_description);
-            // Set the switch to the current theme
             int currentTheme = sharedPrefManager.getTheme();
             switchDarkMode.setChecked(currentTheme == AppCompatDelegate.MODE_NIGHT_YES);
         } else {
@@ -73,7 +75,9 @@ public class SettingsActivity extends AppCompatActivity {
     private void setupListeners() {
         darkModeLayout.setOnClickListener(v -> {
             if (!switchDarkMode.isEnabled()) {
-                Toast.makeText(this, "Bạn cần đạt Cấp " + LEVEL_TO_UNLOCK_DARK_MODE + " để mở khóa tính năng này!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Bạn cần đạt Cấp " + LEVEL_TO_UNLOCK_DARK_MODE + " để mở khóa!", Toast.LENGTH_SHORT).show();
+            } else {
+                switchDarkMode.toggle();
             }
         });
 
@@ -85,7 +89,23 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        // Other listeners for change password, logout...
+        cardChangePassword.setOnClickListener(v -> {
+             startActivity(new Intent(SettingsActivity.this, ChangePasswordActivity.class));
+        });
+
+        btnLogout.setOnClickListener(v -> {
+            new AlertDialog.Builder(this)
+                .setTitle("Đăng xuất")
+                .setMessage("Bạn có chắc chắn muốn đăng xuất không?")
+                .setPositiveButton("Đăng xuất", (dialog, which) -> {
+                    Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    Toast.makeText(this, "Đã đăng xuất", Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton("Hủy", null)
+                .show();
+        });
     }
 
     @Override

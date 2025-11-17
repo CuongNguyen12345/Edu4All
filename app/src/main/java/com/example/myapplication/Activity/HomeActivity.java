@@ -10,7 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 
 import com.example.myapplication.Entity.UserEntity;
 import com.example.myapplication.Manager.SharedPrefManager;
@@ -34,14 +33,9 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        // CORRECTED: The order of initialization is now fixed.
-        // 1. Initialize manager
         sharedPrefManager = new SharedPrefManager(this);
-        // 2. Find all views first
         initializeViews();
-        // 3. Load data and update UI
         loadUserData();
-        // 4. Set listeners for the views
         setupListeners();
     }
 
