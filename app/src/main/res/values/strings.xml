@@ -1,3 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">My Application</string>
+    <string name="welcome_user">Xin chào, User!</string>
+    <string name="graduate_with_edu4all">Tốt nghiệp cùng Edu4All</string>
+    <string name="choose_your_major_group">Lựa chọn khối ngành</string>
+    <string name="major_group_a">Khối A</string>
+    <string name="major_group_b">Khối B</string>
+    <string name="major_group_c">Khối C</string>
+    <string name="major_group_d">Khối D</string>
+
+    <!-- Subject Selection Screen -->
+    <string name="title_subject_selection">Chọn môn</string>
+    <string name="subject_math">Toán</string>
+    <string name="subject_physics">Lý</string>
+    <string name="subject_english">Anh</string>
+
+    <!-- Subject Detail Screen -->
+    <string name="title_subject_detail">Môn học</string>
+    <string name="tab_theory">Lý thuyết</string>
+    <string name="tab_document">Tài liệu</string>
+    <string name="tab_exam">Đề thi</string>
+    <string name="tab_quick_game">Quick game</string>
+
+    <!-- Chapter List Item -->
+    <string name="learn_now">Học ngay</string>
+
+    <!-- English Subject Screen -->
+    <string name="title_subject_english">Môn Tiếng Anh</string>
+    <string name="english_section_games">Trò chơi ôn luyện</string>
+    <string name="game_flashcards">Flashcards</string>
+    <string name="game_word_matching">Nối từ</string>
+    <string name="game_grammar_quiz">Trắc nghiệm</string>
+    <string name="english_section_grammar">Ngữ pháp</string>
+    <string name="english_section_reading">Luyện đọc</string>
+    <string name="english_section_listening">Luyện nghe</string>
+    <string name="english_section_knowledge_check">Kiểm tra kiến thức</string>
+
+    <!-- Flashcard Game -->
+    <string name="title_activity_flashcard">Flashcards</string>
+    <string name="flip_card">(Nhấn để lật)</string>
+    <string name="next_card">Từ tiếp theo</string>
+
+    <!-- Word Matching Game -->
+    <string name="title_activity_word_matching">Nối từ</string>
+    <string name="next_round">Vòng tiếp theo</string>
+
+    <!-- Grammar Quiz Game -->
+    <string name="title_activity_grammar_quiz">Trắc nghiệm Ngữ pháp</string>
+    <string name="check_answer">Kiểm tra</string>
+
+    <!-- Daily Challenge -->
+    <string name="daily_challenge_title">Thử thách hàng ngày</string>
+    <string name="daily_challenge_question">Từ nào sau đây đồng nghĩa với "important"?</string>
+    <string name="answer_a">Crucial</string>
+    <string name="answer_b">Trivial</string>
+    <string name="answer_c">Simple</string>
+    <string name="submit_answer">Nộp bài</string>
+
+    <!-- Settings Screen -->
+    <string name="title_activity_settings">Cài đặt</string>
+    <string name="setting_change_password">Đổi mật khẩu</string>
+    <string name="setting_logout">Đăng xuất</string>
+
+    <!-- XP & Level System -->
+    <string name="level_prefix">Cấp</string>
+
+    <!-- Bottom Nav Screens -->
+    <string name="title_activity_saved_lessons">Bài học đã lưu</string>
+    <string name="title_activity_search">Tìm kiếm</string>
+    <string name="search_hint">Nhập nội dung cần tìm...</string>
 </resources>
