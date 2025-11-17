@@ -1,32 +1,49 @@
 package com.example.myapplication.Component;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+
+import com.example.myapplication.Activity.HomeActivity;
+import com.example.myapplication.Activity.SavedLessonsActivity;
+import com.example.myapplication.Activity.SearchActivity;
+import com.example.myapplication.Activity.SettingsActivity;
 import com.example.myapplication.R;
 
-
 public class CustomBottomNav extends LinearLayout {
-    public CustomBottomNav(Context context, AttributeSet attrs) {
+
+    public CustomBottomNav(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        inflate(context, R.layout.custom_bottom_nav, this);
-        initListeners(context);
+        LayoutInflater.from(context).inflate(R.layout.custom_bottom_nav, this, true);
+
+        View navHome = findViewById(R.id.nav_home);
+        View navSearch = findViewById(R.id.nav_search);
+        View navSave = findViewById(R.id.nav_save);
+        View navSettings = findViewById(R.id.nav_settings);
+
+        navHome.setOnClickListener(v -> navigateTo(HomeActivity.class, true));
+        navSearch.setOnClickListener(v -> navigateTo(SearchActivity.class, false));
+        navSave.setOnClickListener(v -> navigateTo(SavedLessonsActivity.class, false));
+        navSettings.setOnClickListener(v -> navigateTo(SettingsActivity.class, false));
     }
 
-    private void initListeners(Context context) {
-        findViewById(R.id.nav_home).setOnClickListener(v ->
-                Toast.makeText(context, "Trang chủ", Toast.LENGTH_SHORT).show());
+    private void navigateTo(Class<?> destinationActivity, boolean clearTop) {
+        Context context = getContext();
+        // Avoid navigating to the same activity
+        if (context.getClass() == destinationActivity) {
+            return;
+        }
 
-        findViewById(R.id.nav_search).setOnClickListener(v ->
-                Toast.makeText(context, "Tìm kiếm bài học", Toast.LENGTH_SHORT).show());
-
-        findViewById(R.id.nav_save).setOnClickListener(v ->
-                Toast.makeText(context, "Lưu bài học", Toast.LENGTH_SHORT).show());
-
-        findViewById(R.id.nav_settings).setOnClickListener(v ->
-                Toast.makeText(context, "Cài đặt", Toast.LENGTH_SHORT).show());
+        Intent intent = new Intent(context, destinationActivity);
+        if (clearTop) {
+            // Clears the activity stack and brings Home to the top
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        }
+        context.startActivity(intent);
     }
 }
