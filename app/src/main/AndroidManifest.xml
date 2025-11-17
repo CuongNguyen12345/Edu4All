@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -14,59 +15,28 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
 
-        <!-- Activities from your original manifest -->
-        <activity
-            android:name=".Activity.ChangePasswordActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.VerifyCodeActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.ResetPasswordActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.HomeActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.RegisterActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.MainActivity"
-            android:exported="true">
+        <!-- ... a list of all your activities ... -->
+        <activity android:name=".Activity.ChangePasswordActivity" android:exported="false" />
+        <activity android:name=".Activity.VerifyCodeActivity" android:exported="false" />
+        <activity android:name=".Activity.ResetPasswordActivity" android:exported="false" />
+        <activity android:name=".Activity.HomeActivity" android:exported="false" />
+        <activity android:name=".Activity.RegisterActivity" android:exported="false" />
+        <activity android:name=".Activity.MainActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <!-- Added activities -->
-        <activity
-            android:name=".Activity.SubjectSelectionActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.SubjectDetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.EnglishSubjectActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.FlashcardActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.WordMatchingActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.SettingsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.SavedLessonsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.SearchActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.GrammarQuizActivity"
-            android:exported="false" />
+        <activity android:name=".Activity.SubjectSelectionActivity" android:exported="false" />
+        <activity android:name=".Activity.SubjectDetailActivity" android:exported="false" />
+        <activity android:name=".Activity.EnglishSubjectActivity" android:exported="false" />
+        <activity android:name=".Activity.FlashcardActivity" android:exported="false" />
+        <activity android:name=".Activity.WordMatchingActivity" android:exported="false" />
+        <activity android:name=".Activity.SettingsActivity" android:exported="false" />
+        <activity android:name=".Activity.SavedLessonsActivity" android:exported="false" />
+        <activity android:name=".Activity.SearchActivity" android:exported="false" />
+        <activity android:name=".Activity.GrammarQuizActivity" android:exported="false" />
+        <activity android:name=".Activity.UnitDetailActivity" android:exported="false" />
 
     </application>
 

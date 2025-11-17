@@ -5,7 +5,6 @@ import static android.widget.Toast.LENGTH_SHORT;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -17,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.myapplication.Dao.UserDao;
 import com.example.myapplication.Database.AppDatabase;
 import com.example.myapplication.Entity.UserEntity;
+import com.example.myapplication.Manager.SharedPrefManager;
 import com.example.myapplication.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,7 +24,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText edtUserName, edtPassword;
     private Button btnLogin;
     private TextView tvForgot, tvSignup;
-    private LinearLayout btnGoogleLogin, btnFacebookLogin; // Added for social login
+    private LinearLayout btnGoogleLogin, btnFacebookLogin;
+    private SharedPrefManager sharedPrefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         UserDao dao = AppDatabase.getInstance(this).userDao();
+        sharedPrefManager = new SharedPrefManager(this);
+
         initViews();
         setupListeners(dao);
     }
@@ -74,6 +77,10 @@ public class MainActivity extends AppCompatActivity {
 
         if (user != null && user.getPassword().equals(password)) {
             Toast.makeText(this, "Đăng nhập thành công", LENGTH_SHORT).show();
+
+            // CORRECTED: Save username to SharedPreferences on successful login
+            sharedPrefManager.saveUsername(user.getUsername());
+
             Intent intent = new Intent(this, HomeActivity.class);
             Bundle bundle = new Bundle();
             bundle.putSerializable("user", user);
