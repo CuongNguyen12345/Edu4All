@@ -1,5 +1,10 @@
 package com.example.myapplication.Model;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Game {
     private String title;
     private int iconResId; // Using int for drawable resource ID
@@ -9,11 +14,4 @@ public class Game {
         this.iconResId = iconResId;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public int getIconResId() {
-        return iconResId;
-    }
 }

@@ -2,6 +2,11 @@ package com.example.myapplication.Model;
 
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Question {
     private String questionText;
     private List<String> options;
@@ -13,15 +18,4 @@ public class Question {
         this.correctOptionIndex = correctOptionIndex;
     }
 
-    public String getQuestionText() {
-        return questionText;
-    }
-
-    public List<String> getOptions() {
-        return options;
-    }
-
-    public int getCorrectOptionIndex() {
-        return correctOptionIndex;
-    }
 }

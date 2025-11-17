@@ -1,5 +1,10 @@
 package com.example.myapplication.Model;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Word {
     private String front;
     private String back;
@@ -9,11 +14,4 @@ public class Word {
         this.back = back;
     }
 
-    public String getFront() {
-        return front;
-    }
-
-    public String getBack() {
-        return back;
-    }
 }

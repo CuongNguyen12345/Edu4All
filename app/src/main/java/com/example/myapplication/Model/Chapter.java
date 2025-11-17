@@ -1,5 +1,10 @@
 package com.example.myapplication.Model;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Chapter {
     private String title;
     private String lessonCount;
@@ -11,15 +16,4 @@ public class Chapter {
         this.progress = progress;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public String getLessonCount() {
-        return lessonCount;
-    }
-
-    public int getProgress() {
-        return progress;
-    }
 }

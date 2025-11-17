@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myapplication.Dao.UserDao;
 import com.example.myapplication.Database.AppDatabase;
 import com.example.myapplication.Entity.UserEntity;
 import com.example.myapplication.R;
@@ -30,8 +31,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        UserDao dao = AppDatabase.getInstance(this).userDao();
         initViews();
-        setupListeners();
+        setupListeners(dao);
     }
 
     private void initViews() {
@@ -44,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
         btnFacebookLogin = findViewById(R.id.btnFacebookLogin);
     }
 
-    private void setupListeners() {
-        btnLogin.setOnClickListener(v -> handleLogin());
+    private void setupListeners(UserDao dao) {
+        btnLogin.setOnClickListener(v -> handleLogin(dao));
         tvSignup.setOnClickListener(v -> handleRegister());
         tvForgot.setOnClickListener(v -> handleForgotPassword());
 
@@ -59,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void handleLogin() {
+    private void handleLogin(UserDao dao) {
         String username = edtUserName.getText().toString().trim();
         String password = edtPassword.getText().toString().trim();
 
@@ -68,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        UserEntity user = AppDatabase.getInstance(this).userDao().getUserByUsername(username);
+        UserEntity user = dao.getUserByUsername(username);
 
         if (user != null && user.getPassword().equals(password)) {
             Toast.makeText(this, "Đăng nhập thành công", LENGTH_SHORT).show();
@@ -77,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
             bundle.putSerializable("user", user);
             intent.putExtras(bundle);
             startActivity(intent);
-            finish();
+//            finish();
         } else {
             Toast.makeText(this, "Sai tên đăng nhập hoặc mật khẩu", LENGTH_SHORT).show();
         }
