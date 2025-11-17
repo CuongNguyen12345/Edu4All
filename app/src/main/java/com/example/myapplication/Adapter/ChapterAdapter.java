@@ -17,9 +17,16 @@ import java.util.List;
 public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterViewHolder> {
 
     private List<Chapter> chapterList;
+    private final OnChapterClickListener listener;
 
-    public ChapterAdapter(List<Chapter> chapterList) {
+    // Interface for click events
+    public interface OnChapterClickListener {
+        void onChapterClick(Chapter chapter);
+    }
+
+    public ChapterAdapter(List<Chapter> chapterList, OnChapterClickListener listener) {
         this.chapterList = chapterList;
+        this.listener = listener;
     }
 
     @NonNull
@@ -32,10 +39,7 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
     @Override
     public void onBindViewHolder(@NonNull ChapterViewHolder holder, int position) {
         Chapter chapter = chapterList.get(position);
-        holder.tvChapterTitle.setText(chapter.getTitle());
-        holder.tvLessonCount.setText(chapter.getLessonCount());
-        // Set the progress for the ProgressBar
-        holder.progressBar.setProgress(chapter.getProgress());
+        holder.bind(chapter, listener);
     }
 
     @Override
@@ -46,13 +50,20 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
     public static class ChapterViewHolder extends RecyclerView.ViewHolder {
         TextView tvChapterTitle;
         TextView tvLessonCount;
-        ProgressBar progressBar; // Added ProgressBar
+        ProgressBar progressBar;
 
         public ChapterViewHolder(@NonNull View itemView) {
             super(itemView);
             tvChapterTitle = itemView.findViewById(R.id.tvChapterTitle);
             tvLessonCount = itemView.findViewById(R.id.tvLessonCount);
-            progressBar = itemView.findViewById(R.id.progressBar); // Find ProgressBar by ID
+            progressBar = itemView.findViewById(R.id.progressBar);
+        }
+
+        public void bind(final Chapter chapter, final OnChapterClickListener listener) {
+            tvChapterTitle.setText(chapter.getTitle());
+            tvLessonCount.setText(chapter.getLessonCount());
+            progressBar.setProgress(chapter.getProgress());
+            itemView.setOnClickListener(v -> listener.onChapterClick(chapter));
         }
     }
 }

@@ -97,28 +97,32 @@ public class EnglishSubjectActivity extends AppCompatActivity {
     private void setupGrammarSection() {
         grammarList = new ArrayList<>();
         grammarList.add(new Chapter("The 12 English Tenses", "12 bài học", 75));
-        grammarAdapter = new ChapterAdapter(grammarList);
+        // CORRECTED: Added null for the listener parameter
+        grammarAdapter = new ChapterAdapter(grammarList, null);
         rvGrammar.setAdapter(grammarAdapter);
     }
 
     private void setupReadingSection() {
         readingList = new ArrayList<>();
         readingList.add(new Chapter("Reading for Main Ideas", "5 bài đọc", 50));
-        readingAdapter = new ChapterAdapter(readingList);
+        // CORRECTED: Added null for the listener parameter
+        readingAdapter = new ChapterAdapter(readingList, null);
         rvReading.setAdapter(readingAdapter);
     }
 
     private void setupListeningSection() {
         listeningList = new ArrayList<>();
         listeningList.add(new Chapter("Listening for Details", "6 bài nghe", 20));
-        listeningAdapter = new ChapterAdapter(listeningList);
+        // CORRECTED: Added null for the listener parameter
+        listeningAdapter = new ChapterAdapter(listeningList, null);
         rvListening.setAdapter(listeningAdapter);
     }
 
     private void setupKnowledgeCheckSection() {
         knowledgeCheckList = new ArrayList<>();
         knowledgeCheckList.add(new Chapter("Kiểm tra giữa kỳ - Ngữ pháp", "45 phút", 0));
-        knowledgeCheckAdapter = new ChapterAdapter(knowledgeCheckList);
+        // CORRECTED: Added null for the listener parameter
+        knowledgeCheckAdapter = new ChapterAdapter(knowledgeCheckList, null);
         rvKnowledgeCheck.setAdapter(knowledgeCheckAdapter);
     }
 
