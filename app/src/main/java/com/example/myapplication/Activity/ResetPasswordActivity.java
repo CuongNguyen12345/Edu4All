@@ -1,9 +1,12 @@
 package com.example.myapplication.Activity;
 
+import static android.widget.Toast.LENGTH_SHORT;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,24 +14,16 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.myapplication.Dao.UserDao;
+import com.example.myapplication.Database.AppDatabase;
+import com.example.myapplication.Entity.UserEntity;
+import com.example.myapplication.Model.InfoChangePassword;
 import com.example.myapplication.R;
 
-import java.util.Properties;
-
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
 public class ResetPasswordActivity extends AppCompatActivity {
-    private final String senderEmail = "nguyencuong11112004@gmail.com";
-    private final String appPassword = "fgcodsgcboyedlbz";
-    private Button btnCancel, btnConfirm;
-    private EditText etEmail;
-    private String OTP = generateOTP();
+
+    private EditText etChangeEmail, etNewPassword, etConfirmPassword;
+    private Button btnChangePassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,73 +31,54 @@ public class ResetPasswordActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_reset_password);
 
+        UserDao dao = AppDatabase.getInstance(this).userDao();
+
         init();
+        setupChangePassword(dao);
 
-        btnCancel.setOnClickListener(v -> {
-            finish();
-        });
-
-        btnConfirm.setOnClickListener(v -> {
-            try {
-                handleClickConfirm();
-            } catch (MessagingException e) {
-                throw new RuntimeException(e);
-            }
-        });
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
     }
-    private String generateOTP() {
-        int otp = (int) (Math.random() * 900000) + 100000;
-        return String.valueOf(otp);
+
+    private void setupChangePassword(UserDao dao) {
+        Intent intent = getIntent();
+        String email = intent.getStringExtra("email");
+        etChangeEmail.setText(email);
+
+        btnChangePassword.setOnClickListener(v -> handleChangePassword(email, dao));
+
     }
 
-    private void sendMail(String userEmail) throws MessagingException {
-        Properties props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
+    private void handleChangePassword(String email, UserDao dao) {
+        String newPassword = etNewPassword.getText().toString().trim();
+        String confirmPassword = etConfirmPassword.getText().toString().trim();
 
-        Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(senderEmail, appPassword);
-            }
-        });
+        UserEntity entity = dao.getUserByEmailAddress(email);
+        if(newPassword.isEmpty() || confirmPassword.isEmpty()) {
+            Toast.makeText(this, "Vui lòng nhập đầy đủ", LENGTH_SHORT).show();
+            return;
+        }
 
-        Message message = new MimeMessage(session);
-        message.setFrom(new InternetAddress(senderEmail));
-        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(userEmail));
-        message.setSubject("Mã xác nhận đổi mật khẩu");
-        message.setText("Mã OTP của bạn là: " + OTP);
+        if(newPassword.equals(confirmPassword)) {
+            entity.setPassword(newPassword);
+            dao.updateUser(entity);
+            Toast.makeText(this, "Đổi mật khẩu thành công", LENGTH_SHORT).show();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
 
-        Transport.send(message);
-    }
-
-    private void handleClickConfirm() throws MessagingException {
-        String email = etEmail.getText().toString().trim();
-        if(!email.isEmpty()) {
-            new Thread(() -> {
-                try {
-                    sendMail(email);
-                    runOnUiThread(() -> {
-                        Intent intent = new Intent(ResetPasswordActivity.this, VerifyCodeActivity.class);
-                        intent.putExtra("otp", OTP);
-                        intent.putExtra("email", email);
-                        startActivity(intent);
-                    });
-                } catch (MessagingException e) {
-                    throw new RuntimeException(e);
-                }
-            }).start();
+        }
+        else {
+            Toast.makeText(this, "Mật khẩu lặp lại không đúng", LENGTH_SHORT).show();
         }
     }
+
     private void init() {
-        btnCancel = findViewById(R.id.btnCancel);
-        btnConfirm = findViewById(R.id.btnConfirm);
-        etEmail = findViewById(R.id.etEmail);
+        etChangeEmail = findViewById(R.id.etChangeEmail);
+        etNewPassword = findViewById(R.id.etNewPassword);
+        etConfirmPassword = findViewById(R.id.etConfirmPassword);
+        btnChangePassword = findViewById(R.id.btnChangePassword);
     }
 }

@@ -18,6 +18,9 @@ public interface UserDao {
     @Query("SELECT * FROM users WHERE username =:username")
     UserEntity getUserByUsername(String username);
 
+    @Query("SELECT * FROM users WHERE email =:email")
+    UserEntity getUserByEmailAddress(String email);
+
     @Insert
     void insertUser(UserEntity user);
 

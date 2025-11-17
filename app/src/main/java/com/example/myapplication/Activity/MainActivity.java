@@ -19,6 +19,8 @@ import com.example.myapplication.Entity.UserEntity;
 import com.example.myapplication.Manager.SharedPrefManager;
 import com.example.myapplication.R;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     private EditText edtUserName, edtPassword;
@@ -93,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void handleForgotPassword() {
-        Intent intent = new Intent(this, ResetPasswordActivity.class);
+        Intent intent = new Intent(this, SendEmailConfirmActivity.class);
         startActivity(intent);
     }
 

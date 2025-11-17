@@ -5,12 +5,12 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:background="@color/color_yellow"
-    tools:context=".Activity.VerifyCodeActivity">
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    tools:context=".Activity.SendEmailConfirmActivity">
 
-    <!-- PHẦN TRÊN: LOGO + TÊN ỨNG DỤNG -->
-    <!-- PHẦN TRÊN: NỀN VÀ LOGO -->
+    <!-- PHẦN TRÊN: LOGO + TÊN APP -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topSection"
         android:layout_width="408dp"
@@ -33,7 +33,7 @@
             app:layout_constraintVertical_bias="0.625" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- PHẦN DƯỚI: FORM NHẬP THÔNG TIN -->
+    <!-- PHẦN DƯỚI: FORM ĐỔI MẬT KHẨU -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/loginCard"
         android:layout_width="412dp"
@@ -45,7 +45,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/topSection">
 
-        <!-- TIÊU ĐỀ -->
+        <!-- Ô nhập Email -->
+
+        <!-- HÀNG NÚT -->
+
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
@@ -59,57 +62,48 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Ô nhập Email -->
-
-        <!-- Ô nhập mã xác nhận -->
-
-        <!-- Nút XÁC NHẬN -->
-
         <EditText
             android:id="@+id/etEmail"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/edt_login"
-            android:enabled="false"
             android:hint="Email"
             android:inputType="textEmailAddress"
             android:padding="12dp"
             android:textColor="#000000"
             android:textColorHint="#999999"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
-        <EditText
-            android:id="@+id/etCode"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/edt_login"
-            android:hint="Mã xác nhận"
-            android:inputType="number"
-            android:padding="12dp"
-            android:textColor="#000000"
-            android:textColorHint="#999999"
-            app:layout_constraintEnd_toEndOf="parent"
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="36dp"
+            android:background="@android:color/transparent"
+            android:text="Cancel"
+            android:textColor="#FFFFFF"
+            android:textSize="24dp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etEmail" />
 
         <Button
             android:id="@+id/btnConfirm"
-            android:layout_width="match_parent"
+            android:layout_width="207dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="36dp"
             android:backgroundTint="@color/color_yellow"
-            android:paddingVertical="12dp"
+            android:paddingHorizontal="24dp"
             android:text="Xác nhận"
             android:textColor="#fff"
             android:textSize="24dp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etCode" />
+            app:layout_constraintStart_toEndOf="@+id/btnCancel"
+            app:layout_constraintTop_toBottomOf="@+id/etEmail" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
