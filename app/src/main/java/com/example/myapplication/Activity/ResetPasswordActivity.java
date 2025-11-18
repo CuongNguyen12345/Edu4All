@@ -17,7 +17,6 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.myapplication.Dao.UserDao;
 import com.example.myapplication.Database.AppDatabase;
 import com.example.myapplication.Entity.UserEntity;
-import com.example.myapplication.Model.InfoChangePassword;
 import com.example.myapplication.R;
 
 public class ResetPasswordActivity extends AppCompatActivity {
