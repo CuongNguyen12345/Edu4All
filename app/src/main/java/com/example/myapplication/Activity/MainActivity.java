@@ -22,7 +22,6 @@ import com.example.myapplication.R;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
     private EditText edtUserName, edtPassword;
     private Button btnLogin;
     private TextView tvForgot, tvSignup;

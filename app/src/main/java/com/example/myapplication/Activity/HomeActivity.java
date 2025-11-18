@@ -17,15 +17,12 @@ import com.example.myapplication.Manager.SharedPrefManager;
 import com.example.myapplication.R;
 
 public class HomeActivity extends AppCompatActivity {
-
     private UserEntity currentUser;
     private SharedPrefManager sharedPrefManager;
-
     private TextView tvWelcome, tvLevel;
     private ProgressBar xpProgressBar;
     private RadioGroup radioGroupAnswers;
     private Button btnSubmitAnswer;
-
     private static final int XP_FOR_CORRECT_ANSWER = 50;
     private static final int XP_TO_LEVEL_UP = 100;
 
