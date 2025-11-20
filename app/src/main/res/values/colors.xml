@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- Màu chính hiện có -->
     <color name="color_yellow">#FFD700</color>
     <color name="color_blue">#004AAD</color>
     <color name="color_text">#AAA7A7</color>
@@ -13,7 +15,20 @@
     <color name="subject_teal">#009688</color>
     <color name="subject_green">#4CAF50</color>
     <color name="subject_brown">#795548</color>
-    
-    <color name="light_gray_background">#f0f0f0</color>
+
+    <!-- Nền -->
+    <color name="light_gray_background">#F0F0F0</color>
+
+    <!-- Text màu đỏ đậm -->
     <color name="dark_red_text">#C62828</color>
+
+    <!-- ⭐ Các màu bổ sung (layout mới cần dùng) -->
+    <color name="black">#000000</color>
+    <color name="gray">#888888</color>
+    <color name="section_title_text">#333333</color>
+
+    <!-- Màu nhấn & màu chính dùng cho style PracticeButton -->
+    <color name="primary_color">#3F51B5</color>
+    <color name="accent_color">#FF9800</color>
+
 </resources>

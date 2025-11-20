@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@color/light_gray_background"
+    tools:context=".Activity.VocabularyActivity">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/color_yellow"
+        app:titleTextColor="@color/primary_blue"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        android:layout_marginTop="24dp">
+
+        <Button
+            android:id="@+id/btnFlashcard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📘 Thẻ ghi nhớ (Flashcards)"
+            android:layout_marginVertical="10dp"
+            android:backgroundTint="@color/color_yellow"
+            android:textColor="@color/primary_blue" />
+
+        <Button
+            android:id="@+id/btnMatching"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🧩 Ghép thẻ (Matching Game)"
+            android:layout_marginVertical="10dp"
+            android:backgroundTint="@color/color_yellow"
+            android:textColor="@color/primary_blue" />
+
+        <Button
+            android:id="@+id/btnWriting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="✍️ Đánh giá bằng văn bản"
+            android:layout_marginVertical="10dp"
+            android:backgroundTint="@color/color_yellow"
+            android:textColor="@color/primary_blue" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

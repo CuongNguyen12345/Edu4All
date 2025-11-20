@@ -46,6 +46,7 @@
         <activity
             android:name=".Activity.SubjectDetailActivity"
             android:exported="false" />
+        <activity android:name=".Activity.EnglishSubjectActivity1" android:exported="false"/>
         <activity
             android:name=".Activity.EnglishSubjectActivity"
             android:exported="false" />
@@ -60,6 +61,7 @@
             android:exported="false" />
         <activity
             android:name=".Activity.SavedLessonsActivity"
+
             android:exported="false" />
         <activity
             android:name=".Activity.SearchActivity"
@@ -67,6 +69,9 @@
         <activity
             android:name=".Activity.GrammarQuizActivity"
             android:exported="false" />
+        <activity android:name=".Activity.ReadingQuizActivity" android:exported="false"/>
+        <activity android:name=".Activity.VocabularyActivity" android:exported="false"/>
+        <activity android:name=".Activity.WritingTestActivity" android:exported="false"/>
 
     </application>
 

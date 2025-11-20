@@ -2,7 +2,6 @@ package com.example.myapplication.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -11,7 +10,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.myapplication.ChangePasswordActivity; // CORRECTED: Added this import
 import com.example.myapplication.R;
 
 public class SettingsActivity extends AppCompatActivity {

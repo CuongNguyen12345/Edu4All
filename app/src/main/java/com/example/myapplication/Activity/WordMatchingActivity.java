@@ -1,149 +1,164 @@
 package com.example.myapplication.Activity;
 
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.view.Gravity;
-import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 
-import com.example.myapplication.Manager.SharedPrefManager;
-import com.example.myapplication.Model.Word;
+import com.example.myapplication.Database.DBHelper;
 import com.example.myapplication.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class WordMatchingActivity extends AppCompatActivity {
 
-    private LinearLayout englishColumn, vietnameseColumn;
-    private Button btnNextRound;
+    LinearLayout englishColumn, vietnameseColumn;
+    TextView selectedEnglish = null;
+    TextView selectedVietnamese = null;
 
-    private List<Word> currentRoundWords;
-    private Map<TextView, Word> textViewToWordMap = new HashMap<>();
+    DBHelper db;
+    int unitId;
 
-    private TextView selectedEnglishView = null;
-    private TextView selectedVietnameseView = null;
+    List<String> words = new ArrayList<>();
+    List<String> meanings = new ArrayList<>();
 
-    private int correctPairs = 0;
-
-    // XP System
-    private SharedPrefManager sharedPrefManager;
-    private static final int XP_FOR_ROUND_COMPLETION = 30;
-    private static final int XP_TO_LEVEL_UP = 100;
+    List<String> fullListRaw;   // lưu toàn bộ để kiểm tra đúng nghĩa
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_word_matching);
 
-        sharedPrefManager = new SharedPrefManager(this);
+        unitId = getIntent().getIntExtra("unit_id", 1);
 
+        // Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
+        getSupportActionBar().setTitle("Matching – Unit " + unitId);
 
         englishColumn = findViewById(R.id.englishColumn);
         vietnameseColumn = findViewById(R.id.vietnameseColumn);
-        btnNextRound = findViewById(R.id.btnNextRound);
 
-        startNewRound();
-        btnNextRound.setOnClickListener(v -> startNewRound());
+        db = new DBHelper(this);
+
+        loadData();
+        renderColumns();
     }
 
-    private void startNewRound() {
-        // ... (Reset state logic is unchanged)
-        correctPairs = 0;
+    // ============================================================
+    // LOAD VOCAB FROM CSDL
+    // ============================================================
+    private void loadData() {
+        fullListRaw = db.getVocabularyList(unitId);
+
+        for (String item : fullListRaw) {
+            String[] parts = item.split("–");
+            if (parts.length >= 2) {
+                words.add(parts[0].trim());
+                meanings.add(parts[1].trim().split("\n")[0]);
+            }
+        }
+
+        Collections.shuffle(words);
+        Collections.shuffle(meanings);
+    }
+
+    // ============================================================
+    // RENDER COLUMNS (RELOAD UI)
+    // ============================================================
+    private void renderColumns() {
         englishColumn.removeAllViews();
         vietnameseColumn.removeAllViews();
-        textViewToWordMap.clear();
-        selectedEnglishView = null;
-        selectedVietnameseView = null;
-        btnNextRound.setVisibility(View.INVISIBLE);
 
-        prepareWords();
-        displayWords();
+        for (String w : words) {
+            englishColumn.addView(createWordView(w, true));
+        }
+
+        for (String m : meanings) {
+            vietnameseColumn.addView(createWordView(m, false));
+        }
     }
 
-    private void prepareWords() {
-        // ... (Unchanged)
+    // ============================================================
+    // CREATE TEXTVIEW (CARD)
+    // ============================================================
+    private TextView createWordView(String text, boolean isEnglish) {
+        TextView tv = new TextView(this);
+        tv.setText(text);
+        tv.setTextSize(20f);
+        tv.setPadding(24, 24, 24, 24);
+        tv.setBackgroundResource(R.drawable.card_background);
+        tv.setTextColor(getColor(R.color.primary_blue));
+
+        LinearLayout.LayoutParams params =
+                new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                );
+        params.setMargins(0, 16, 0, 16);
+        tv.setLayoutParams(params);
+
+        tv.setOnClickListener(v -> handleClick(tv, isEnglish));
+
+        return tv;
     }
 
-    private void displayWords() {
-        // ... (Unchanged)
-    }
+    // ============================================================
+    // CLICK EVENT
+    // ============================================================
+    private void handleClick(TextView tv, boolean isEnglish) {
 
-    private TextView createWordTextView(String text, boolean isEnglish) {
-        // ... (Unchanged)
-        return new TextView(this); // Placeholder
-    }
+        tv.setBackgroundResource(R.drawable.card_selected);
 
-    private void onWordSelected(TextView view, boolean isEnglish) {
-        // ... (Unchanged)
-    }
-
-    private void checkMatch() {
-        Word englishWord = textViewToWordMap.get(selectedEnglishView);
-        Word vietnameseWord = textViewToWordMap.get(selectedVietnameseView);
-
-        final TextView tempEngView = selectedEnglishView;
-        final TextView tempVieView = selectedVietnameseView;
-
-        if (englishWord == vietnameseWord) {
-            correctPairs++;
-            setButtonState(tempEngView, true);
-            setButtonState(tempVieView, true);
-            tempEngView.setOnClickListener(null);
-            tempVieView.setOnClickListener(null);
-
-            if (correctPairs == currentRoundWords.size()) {
-                Toast.makeText(this, "Hoàn thành! +" + XP_FOR_ROUND_COMPLETION + " XP", Toast.LENGTH_SHORT).show();
-                awardXp(XP_FOR_ROUND_COMPLETION);
-                btnNextRound.setVisibility(View.VISIBLE);
-            }
+        if (isEnglish) {
+            if (selectedEnglish != null && selectedEnglish != tv)
+                selectedEnglish.setBackgroundResource(R.drawable.card_background);
+            selectedEnglish = tv;
         } else {
-            // ... (Incorrect match logic is unchanged)
+            if (selectedVietnamese != null && selectedVietnamese != tv)
+                selectedVietnamese.setBackgroundResource(R.drawable.card_background);
+            selectedVietnamese = tv;
         }
 
-        selectedEnglishView = null;
-        selectedVietnameseView = null;
-    }
-
-    private void awardXp(int amount) {
-        int currentXp = sharedPrefManager.getXp();
-        int currentLevel = sharedPrefManager.getLevel();
-
-        currentXp += amount;
-        if (currentXp >= XP_TO_LEVEL_UP) {
-            currentLevel++;
-            currentXp -= XP_TO_LEVEL_UP;
+        if (selectedEnglish != null && selectedVietnamese != null) {
+            checkMatch();
         }
-        sharedPrefManager.saveUserStats(currentXp, currentLevel);
     }
 
-    private void setButtonState(TextView view, boolean isCorrect) {
-        // ... (Unchanged)
-    }
+    // ============================================================
+    // CHECK MATCH (REMOVE VIEW)
+    // ============================================================
+    private void checkMatch() {
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
+        String en = selectedEnglish.getText().toString().trim();
+        String vi = selectedVietnamese.getText().toString().trim();
+
+        boolean correct = fullListRaw.stream()
+                .anyMatch(item -> item.startsWith(en + " – " + vi));
+
+        if (correct) {
+            Toast.makeText(this, "✓ Đúng rồi!", Toast.LENGTH_SHORT).show();
+
+            // Xóa khỏi dữ liệu
+            words.remove(en);
+            meanings.remove(vi);
+
+            // Xóa TextView khỏi layout
+            englishColumn.removeView(selectedEnglish);
+            vietnameseColumn.removeView(selectedVietnamese);
+
+        } else {
+            Toast.makeText(this, "Sai rồi!", Toast.LENGTH_SHORT).show();
+            selectedEnglish.setBackgroundResource(R.drawable.card_background);
+            selectedVietnamese.setBackgroundResource(R.drawable.card_background);
+        }
+
+        selectedEnglish = null;
+        selectedVietnamese = null;
     }
 }

@@ -1,128 +1,145 @@
 package com.example.myapplication.Activity;
 
-import android.animation.AnimatorInflater;
-import android.animation.AnimatorSet;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
-import com.example.myapplication.Manager.SharedPrefManager;
-import com.example.myapplication.Model.Word;
+import com.example.myapplication.Database.DBHelper;
 import com.example.myapplication.R;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class FlashcardActivity extends AppCompatActivity {
 
-    private List<Word> wordList;
-    private int currentWordIndex = 0;
-    private static final int XP_FOR_ROUND_COMPLETION = 20;
-    private static final int XP_TO_LEVEL_UP = 100;
+    CardView cardFront, cardBack;
+    TextView tvFront, tvBack;
 
-    private SharedPrefManager sharedPrefManager;
-    private AnimatorSet frontAnim, backAnim;
-    private boolean isFront = true;
+    AnimatorSet flipOut, flipIn;
 
-    private CardView cardFront, cardBack;
-    private TextView tvFront, tvBack;
-    private Button btnNextCard;
+    List<String> wordList = new ArrayList<>();
+    List<String> meaningList = new ArrayList<>();
+    List<String> exampleList = new ArrayList<>();
+
+    int currentIndex = 0;
+    boolean showingFront = true;
+
+    int unitId;
+    DBHelper db;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flashcard);
 
-        sharedPrefManager = new SharedPrefManager(this);
-
+        // ---------------- TOOLBAR ----------------
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
+        unitId = getIntent().getIntExtra("unit_id", 1);
+        getSupportActionBar().setTitle("Flashcards – Unit " + unitId);
 
+        // ---------------- ÁNH XẠ VIEW ----------------
         cardFront = findViewById(R.id.cardFront);
-        cardBack = findViewById(R.id.cardBack);
-        tvFront = findViewById(R.id.tvFront);
-        tvBack = findViewById(R.id.tvBack);
-        btnNextCard = findViewById(R.id.btnNextCard);
+        cardBack  = findViewById(R.id.cardBack);
+        tvFront   = findViewById(R.id.tvFront);
+        tvBack    = findViewById(R.id.tvBack);
 
-        loadAnimations();
-        prepareWordList();
-        displayCurrentWord();
+        // ---------------- LOAD ANIMATION ----------------
+        flipOut = (AnimatorSet) AnimatorInflater.loadAnimator(this, R.animator.flip_out);
+        flipIn  = (AnimatorSet) AnimatorInflater.loadAnimator(this, R.animator.flip_in);
 
-        View.OnClickListener flipClickListener = v -> flipCard();
-        cardFront.setOnClickListener(flipClickListener);
-        cardBack.setOnClickListener(flipClickListener);
+        // ---------------- LOAD DATA ----------------
+        db = new DBHelper(this);
+        loadVocabulary(unitId);
 
-        btnNextCard.setOnClickListener(v -> showNextWord());
+        if (wordList.isEmpty()) {
+            Toast.makeText(this, "Không có dữ liệu từ vựng!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        showCard(currentIndex);
+
+        // ---------------- SỰ KIỆN LẬT THẺ ----------------
+        cardFront.setOnClickListener(v -> flipCard());
+        cardBack.setOnClickListener(v -> flipCard());
+
+        // ---------------- NEXT CARD ----------------
+        findViewById(R.id.btnNextCard).setOnClickListener(v -> nextCard());
     }
 
-    private void loadAnimations() {
-        frontAnim = (AnimatorSet) AnimatorInflater.loadAnimator(this, R.animator.card_flip_out);
-        backAnim = (AnimatorSet) AnimatorInflater.loadAnimator(this, R.animator.card_flip_in);
-        // ... (rest of the method is unchanged)
+
+    // ============================================================
+    // LOAD VOCABULARY DATA
+    // ============================================================
+    private void loadVocabulary(int unitId) {
+        // lấy dữ liệu dạng đầy đủ (word – meaning – example)
+        List<String> fullList = db.getVocabularyList(unitId);
+
+        for (String item : fullList) {
+            // dạng: "word – meaning\nVD: example"
+            String[] parts = item.split("–");
+
+            if (parts.length >= 2) {
+                String word = parts[0].trim();
+                String meaningBlock = parts[1];
+
+                String meaning = meaningBlock.split("\n")[0].trim();
+
+                wordList.add(word);
+                meaningList.add(meaning);
+            }
+        }
     }
 
-    private void prepareWordList() {
-        wordList = new ArrayList<>();
-        wordList.add(new Word("Hello", "Xin chào"));
-        wordList.add(new Word("World", "Thế giới"));
-        wordList.add(new Word("Computer", "Máy tính"));
-        wordList.add(new Word("Science", "Khoa học"));
-        Collections.shuffle(wordList);
+    // ============================================================
+    // HIỂN THỊ CARD
+    // ============================================================
+    private void showCard(int index) {
+        tvFront.setText(wordList.get(index));
+        tvBack.setText(meaningList.get(index));
+
+        // đảm bảo mặt trước hiển thị khi đổi từ
+        showingFront = true;
+        cardFront.setAlpha(1);
+        cardBack.setAlpha(0);
     }
 
-    private void displayCurrentWord() {
-        // ... (unchanged)
-    }
-
+    // ============================================================
+    // LẬT THẺ
+    // ============================================================
     private void flipCard() {
-        // ... (unchanged)
-    }
-
-    private void showNextWord() {
-        currentWordIndex++;
-        if (currentWordIndex >= wordList.size()) {
-            awardXp();
-            currentWordIndex = 0; // Loop back
+        if (showingFront) {
+            flipOut.setTarget(cardFront);
+            flipIn.setTarget(cardBack);
+        } else {
+            flipOut.setTarget(cardBack);
+            flipIn.setTarget(cardFront);
         }
 
-        if (!isFront) {
-            flipCard();
-        }
+        flipOut.start();
+        flipIn.start();
 
-        cardFront.postDelayed(this::displayCurrentWord, 300);
+        showingFront = !showingFront;
     }
 
-    private void awardXp() {
-        Toast.makeText(this, "Hoàn thành vòng! +" + XP_FOR_ROUND_COMPLETION + " XP", Toast.LENGTH_SHORT).show();
+    // ============================================================
+    // NEXT CARD
+    // ============================================================
+    private void nextCard() {
+        currentIndex++;
 
-        int currentXp = sharedPrefManager.getXp();
-        int currentLevel = sharedPrefManager.getLevel();
-
-        currentXp += XP_FOR_ROUND_COMPLETION;
-        if (currentXp >= XP_TO_LEVEL_UP) {
-            currentLevel++;
-            currentXp -= XP_TO_LEVEL_UP;
-            // You can add a special toast for leveling up here if you want
+        if (currentIndex >= wordList.size()) {
+            currentIndex = 0;
+            Toast.makeText(this, "Đã quay về thẻ đầu tiên!", Toast.LENGTH_SHORT).show();
         }
 
-        sharedPrefManager.saveUserStats(currentXp, currentLevel);
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
+        showCard(currentIndex);
     }
 }

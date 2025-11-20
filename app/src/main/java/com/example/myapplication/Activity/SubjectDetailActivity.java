@@ -10,6 +10,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import android.content.Intent;
 
 import com.example.myapplication.Adapter.ChapterAdapter;
 import com.example.myapplication.Model.Chapter;
@@ -101,7 +102,7 @@ public class SubjectDetailActivity extends AppCompatActivity {
                     break;
             }
         } else if ("Lý".equals(currentSubject)) {
-             switch (tab) {
+            switch (tab) {
                 case "Theory":
                     chapterList.add(new Chapter("Chương 1: Dao động cơ", "15 bài học", 40));
                     chapterList.add(new Chapter("Chương 2: Sóng cơ và sóng âm", "11 bài học", 10));
@@ -114,12 +115,38 @@ public class SubjectDetailActivity extends AppCompatActivity {
                     chapterList.add(new Chapter("Kiểm tra 1 tiết - Dao động cơ", "45 phút", 0));
                     break;
             }
+        } else if ("Anh".equals(currentSubject)) {
+            switch (tab) {
+                case "Theory":
+                    chapterList.add(new Chapter("Unit 1: Life Stories", "5 bài học", 40));
+                    chapterList.add(new Chapter("Unit 2: Urbanisation", "5 bài học", 10));
+                    chapterList.add(new Chapter("Unit 3: The Green Movement", "5 bài học", 0));
+                    chapterList.add(new Chapter("Unit 4: Education System", "5 bài học", 0));
+                    chapterList.add(new Chapter("Unit 5: Cultural Identity", "5 bài học", 0));
+                    break;
+                case "Document":
+                    chapterList.add(new Chapter("Summary unit 1", "PDF", 0));
+                    chapterList.add(new Chapter("Summary unit 2", "PDF", 0));
+                    chapterList.add(new Chapter("Summary unit 3", "PDF", 0));
+                    chapterList.add(new Chapter("Summary unit 4", "PDF", 0));
+                    chapterList.add(new Chapter("Summary unit 5", "PDF", 0));
+                    break;
+                case "Exam":
+                    chapterList.add(new Chapter("midterm exam", "45 phút", 0));
+                    break;
+            }
+
+            chapterAdapter = new ChapterAdapter(chapterList);
+            rvChapters.setAdapter(chapterAdapter);
+            chapterAdapter.setOnLearnClickListener(position -> {
+                int unitId = position + 1;
+                Intent intent = new Intent(SubjectDetailActivity.this, EnglishSubjectActivity1.class);
+                intent.putExtra("unit_id", unitId);
+                startActivity(intent);
+            });
+
         }
-
-        chapterAdapter = new ChapterAdapter(chapterList);
-        rvChapters.setAdapter(chapterAdapter);
     }
-
     private void updateTabSelection(String selectedTab) {
         updateTabTextStyle(tabTheory, "Theory".equals(selectedTab));
         updateTabTextStyle(tabDocument, "Document".equals(selectedTab));

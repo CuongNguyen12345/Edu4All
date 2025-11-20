@@ -27,6 +27,7 @@
 
     <!-- English Subject Screen -->
     <string name="title_subject_english">Môn Tiếng Anh</string>
+    <string name="title_subject_english_unit">Unit 1</string>
     <string name="english_section_games">Trò chơi ôn luyện</string>
     <string name="game_flashcards">Flashcards</string>
     <string name="game_word_matching">Nối từ</string>

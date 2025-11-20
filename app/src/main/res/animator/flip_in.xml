@@ -15,4 +15,10 @@
         android:propertyName="alpha"
         android:startOffset="150"
         android:duration="1" />
+    <objectAnimator
+        android:propertyName="rotationY"
+        android:valueFrom="-90"
+        android:valueTo="0"
+        android:duration="200"/>
+
 </set>

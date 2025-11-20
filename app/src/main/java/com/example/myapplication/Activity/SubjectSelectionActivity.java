@@ -60,7 +60,9 @@ public class SubjectSelectionActivity extends AppCompatActivity {
 
         // Navigate to the rich EnglishSubjectActivity for English
         cardEnglish.setOnClickListener(v -> {
-            Intent intent = new Intent(SubjectSelectionActivity.this, EnglishSubjectActivity.class);
+            Intent intent = new Intent(SubjectSelectionActivity.this, SubjectDetailActivity.class);
+            intent.putExtra("SUBJECT_NAME", "Anh");
+            intent.putExtra("unit_id", 1);
             startActivity(intent);
         });
     }
