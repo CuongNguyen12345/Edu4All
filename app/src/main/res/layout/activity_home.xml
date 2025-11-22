@@ -5,95 +5,99 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:fitsSystemWindows="true"
+    android:background="@color/light_gray_background"
     tools:context=".Activity.HomeActivity">
 
-    <!-- HEADER -->
+    <!-- 1. HEADER at the top -->
     <LinearLayout
         android:id="@+id/headerLayout"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/bg_header_rounded"
-        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:padding="16dp"
         app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/logo_edu4all" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvWelcome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/welcome_user"
+                android:textColor="@color/primary_blue"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/graduate_with_edu4all"
+                android:textColor="@color/primary_blue"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 2. XP and Level Card BELOW the header -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/xpLevelCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        app:cardElevation="4dp"
+        app:cardCornerRadius="12dp"
+        app:layout_constraintTop_toBottomOf="@id/headerLayout">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="16dp">
 
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/logo_edu4all" />
-
-            <LinearLayout
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/tvLevel"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/bg_button_yellow_rounded"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="4dp"
+                android:textColor="@color/primary_blue"
+                android:textStyle="bold"
+                tools:text="Cấp 1" />
+
+            <ProgressBar
+                android:id="@+id/xpProgressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="12dp"
+                android:layout_marginStart="8dp"
                 android:layout_weight="1"
-                android:layout_marginStart="10dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tvWelcome"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/welcome_user"
-                    android:textColor="@color/primary_blue"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/graduate_with_edu4all"
-                    android:textColor="@color/primary_blue"
-                    android:textSize="14sp" />
-
-                <!-- XP and Level System -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/tvLevel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/bg_button_yellow_rounded"
-                        android:paddingHorizontal="12dp"
-                        android:paddingVertical="4dp"
-                        android:textColor="@color/primary_blue"
-                        android:textStyle="bold"
-                        tools:text="Cấp 1" />
-
-                    <ProgressBar
-                        android:id="@+id/xpProgressBar"
-                        style="?android:attr/progressBarStyleHorizontal"
-                        android:layout_width="0dp"
-                        android:layout_height="12dp"
-                        android:layout_weight="1"
-                        android:layout_marginStart="8dp"
-                        android:progressDrawable="@drawable/bg_progress_bar"
-                        tools:progress="30" />
-                </LinearLayout>
-
-            </LinearLayout>
+                android:progressDrawable="@drawable/bg_progress_bar"
+                tools:progress="30" />
         </LinearLayout>
 
-    </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
-    <!-- Main Content -->
+    <!-- 3. Scrollable Main Content BELOW the XP card -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/headerLayout"
+        app:layout_constraintTop_toBottomOf="@id/xpLevelCard"
         app:layout_constraintBottom_toTopOf="@id/bottomNav">
 
         <LinearLayout
@@ -112,6 +116,7 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
+            <!-- Major Groups -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -122,12 +127,11 @@
                     app:cardBackgroundColor="@color/subject_red">
                     <TextView style="@style/SubjectTitle" android:text="@string/major_group_a" android:padding="24dp"/>
                 </androidx.cardview.widget.CardView>
-
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardKhoiB"
                     style="@style/SubjectCard"
                     app:cardBackgroundColor="@color/subject_blue">
-                     <TextView style="@style/SubjectTitle" android:text="@string/major_group_b" android:padding="24dp"/>
+                    <TextView style="@style/SubjectTitle" android:text="@string/major_group_b" android:padding="24dp"/>
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
 
@@ -142,16 +146,15 @@
                     app:cardBackgroundColor="@color/subject_orange">
                     <TextView style="@style/SubjectTitle" android:text="@string/major_group_c" android:padding="24dp"/>
                 </androidx.cardview.widget.CardView>
-
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardKhoiD"
                     style="@style/SubjectCard"
                     app:cardBackgroundColor="@color/subject_teal">
-                     <TextView style="@style/SubjectTitle" android:text="@string/major_group_d" android:padding="24dp"/>
+                    <TextView style="@style/SubjectTitle" android:text="@string/major_group_d" android:padding="24dp"/>
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
 
-            <!-- Daily Challenge Card -->
+            <!-- Daily Challenge -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -192,13 +195,11 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/answer_a" />
-
                         <RadioButton
                             android:id="@+id/radioAnswerB"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/answer_b" />
-
                         <RadioButton
                             android:id="@+id/radioAnswerC"
                             android:layout_width="wrap_content"
@@ -213,13 +214,13 @@
                         android:layout_gravity="end"
                         android:layout_marginTop="8dp"
                         android:text="@string/submit_answer" />
-
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
     </ScrollView>
 
+    <!-- 4. Bottom Nav at the bottom -->
     <com.example.myapplication.Component.CustomBottomNav
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"

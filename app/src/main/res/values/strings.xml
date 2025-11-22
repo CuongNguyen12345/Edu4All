@@ -25,7 +25,18 @@
     <!-- Chapter List Item -->
     <string name="learn_now">Học ngay</string>
 
-    <!-- English Subject Screen -->
+    <!-- Unit Detail Screen -->
+    <string name="title_activity_unit_detail">Unit 1</string>
+    <string name="unit_vocabulary">Vocabulary</string>
+    <string name="unit_grammar">Grammar</string>
+    <string name="unit_reading">Reading</string>
+    <string name="unit_listening">Listening</string>
+    <string name="practice_vocabulary">Thực hành từ vựng</string>
+    <string name="practice_grammar">Thực hành ngữ pháp</string>
+    <string name="practice_reading">Thực hành đọc hiểu</string>
+    <string name="listen_audio">Nghe audio</string>
+
+    <!-- English Subject Screen (Legacy) -->
     <string name="title_subject_english">Môn Tiếng Anh</string>
     <string name="title_subject_english_unit">Unit 1</string>
     <string name="english_section_games">Trò chơi ôn luyện</string>
@@ -62,6 +73,9 @@
     <string name="title_activity_settings">Cài đặt</string>
     <string name="setting_change_password">Đổi mật khẩu</string>
     <string name="setting_logout">Đăng xuất</string>
+    <string name="setting_dark_mode">Chế độ tối</string>
+    <string name="setting_dark_mode_description">Thay đổi giao diện sáng/tối</string>
+    <string name="setting_dark_mode_locked">Đạt Cấp 5 để mở khóa</string>
 
     <!-- XP & Level System -->
     <string name="level_prefix">Cấp</string>
@@ -70,4 +84,11 @@
     <string name="title_activity_saved_lessons">Bài học đã lưu</string>
     <string name="title_activity_search">Tìm kiếm</string>
     <string name="search_hint">Nhập nội dung cần tìm...</string>
+
+    <!-- Change Password Screen -->
+    <string name="title_activity_change_password">Đổi mật khẩu</string>
+    <string name="hint_current_password">Mật khẩu hiện tại</string>
+    <string name="hint_new_password">Mật khẩu mới</string>
+    <string name="hint_confirm_password">Xác nhận mật khẩu mới</string>
+    <string name="save_password">Lưu thay đổi</string>
 </resources>

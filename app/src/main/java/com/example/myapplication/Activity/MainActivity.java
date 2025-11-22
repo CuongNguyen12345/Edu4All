@@ -5,7 +5,6 @@ import static android.widget.Toast.LENGTH_SHORT;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -16,14 +15,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.Database.AppDatabase;
 import com.example.myapplication.Entity.UserEntity;
+import com.example.myapplication.Manager.SharedPrefManager;
 import com.example.myapplication.R;
 
 public class MainActivity extends AppCompatActivity {
 
     private EditText edtUserName, edtPassword;
-    private Button btnLogin;
-    private TextView tvForgot, tvSignup;
-    private LinearLayout btnGoogleLogin, btnFacebookLogin; // Added for social login
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,26 +34,14 @@ public class MainActivity extends AppCompatActivity {
     private void initViews() {
         edtUserName = findViewById(R.id.edtUsername);
         edtPassword = findViewById(R.id.edtPassword);
-        btnLogin = findViewById(R.id.btnLogin);
-        tvForgot = findViewById(R.id.tvForgot);
-        tvSignup = findViewById(R.id.tvSignup);
-        btnGoogleLogin = findViewById(R.id.btnGoogleLogin);
-        btnFacebookLogin = findViewById(R.id.btnFacebookLogin);
     }
 
     private void setupListeners() {
-        btnLogin.setOnClickListener(v -> handleLogin());
-        tvSignup.setOnClickListener(v -> handleRegister());
-        tvForgot.setOnClickListener(v -> handleForgotPassword());
-
-        // Added listeners for social login buttons
-        btnGoogleLogin.setOnClickListener(v -> {
-            Toast.makeText(this, "Tính năng đăng nhập bằng Google đang được phát triển!", LENGTH_SHORT).show();
-        });
-
-        btnFacebookLogin.setOnClickListener(v -> {
-            Toast.makeText(this, "Tính năng đăng nhập bằng Facebook đang được phát triển!", LENGTH_SHORT).show();
-        });
+        findViewById(R.id.btnLogin).setOnClickListener(v -> handleLogin());
+        findViewById(R.id.tvSignup).setOnClickListener(v -> handleRegister());
+        findViewById(R.id.tvForgot).setOnClickListener(v -> handleForgotPassword());
+        findViewById(R.id.btnGoogleLogin).setOnClickListener(v -> handleSocialLogin("Google"));
+        findViewById(R.id.btnFacebookLogin).setOnClickListener(v -> handleSocialLogin("Facebook"));
     }
 
     private void handleLogin() {
@@ -72,10 +57,13 @@ public class MainActivity extends AppCompatActivity {
 
         if (user != null && user.getPassword().equals(password)) {
             Toast.makeText(this, "Đăng nhập thành công", LENGTH_SHORT).show();
+            
+            // Save user stats to SharedPreferences
+            SharedPrefManager sharedPrefManager = new SharedPrefManager(this);
+            sharedPrefManager.saveUsername(user.getUsername());
+
             Intent intent = new Intent(this, HomeActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("user", user);
-            intent.putExtras(bundle);
+            intent.putExtra("user", user);
             startActivity(intent);
             finish();
         } else {
@@ -83,13 +71,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void handleForgotPassword() {
-        Intent intent = new Intent(this, ResetPasswordActivity.class);
-        startActivity(intent);
+    private void handleRegister() {
+        startActivity(new Intent(this, RegisterActivity.class));
     }
 
-    private void handleRegister() {
-        Intent intent = new Intent(this, RegisterActivity.class);
-        startActivity(intent);
+    private void handleForgotPassword() {
+        startActivity(new Intent(this, ResetPasswordActivity.class));
+    }
+
+    private void handleSocialLogin(String provider) {
+        Toast.makeText(this, "Tính năng đăng nhập bằng " + provider + " đang được phát triển!", LENGTH_SHORT).show();
     }
 }

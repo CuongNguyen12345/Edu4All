@@ -17,43 +17,29 @@ import java.util.List;
 public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterViewHolder> {
 
     private List<Chapter> chapterList;
-    private OnLearnClickListener listener;
+    private final OnChapterClickListener listener;
 
-    // Interface callback để Activity nhận sự kiện click
-    public interface OnLearnClickListener {
-        void onLearnClick(int position);
+    // Interface for click events
+    public interface OnChapterClickListener {
+        void onChapterClick(Chapter chapter);
     }
 
-    public void setOnLearnClickListener(OnLearnClickListener listener) {
-        this.listener = listener;
-    }
-
-    public ChapterAdapter(List<Chapter> chapterList) {
+    public ChapterAdapter(List<Chapter> chapterList, OnChapterClickListener listener) {
         this.chapterList = chapterList;
+        this.listener = listener;
     }
 
     @NonNull
     @Override
     public ChapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item_chapter, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_chapter, parent, false);
         return new ChapterViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ChapterViewHolder holder, int position) {
         Chapter chapter = chapterList.get(position);
-
-        holder.tvChapterTitle.setText(chapter.getTitle());
-        holder.tvLessonCount.setText(chapter.getLessonCount());
-        holder.progressBar.setProgress(chapter.getProgress());
-
-        // Sự kiện click nút Học Ngay
-        holder.btnLearnNow.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onLearnClick(position);
-            }
-        });
+        holder.bind(chapter, listener);
     }
 
     @Override
@@ -62,7 +48,8 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
     }
 
     public static class ChapterViewHolder extends RecyclerView.ViewHolder {
-        TextView tvChapterTitle, tvLessonCount, btnLearnNow;
+        TextView tvChapterTitle;
+        TextView tvLessonCount;
         ProgressBar progressBar;
 
         public ChapterViewHolder(@NonNull View itemView) {
@@ -70,7 +57,13 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
             tvChapterTitle = itemView.findViewById(R.id.tvChapterTitle);
             tvLessonCount = itemView.findViewById(R.id.tvLessonCount);
             progressBar = itemView.findViewById(R.id.progressBar);
-            btnLearnNow = itemView.findViewById(R.id.btnLearnNow); // ← Thêm dòng này
+        }
+
+        public void bind(final Chapter chapter, final OnChapterClickListener listener) {
+            tvChapterTitle.setText(chapter.getTitle());
+            tvLessonCount.setText(chapter.getLessonCount());
+            progressBar.setProgress(chapter.getProgress());
+            itemView.setOnClickListener(v -> listener.onChapterClick(chapter));
         }
     }
 }

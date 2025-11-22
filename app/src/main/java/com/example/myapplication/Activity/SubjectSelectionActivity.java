@@ -23,7 +23,6 @@ public class SubjectSelectionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subject_selection);
 
-        // --- Logic is now re-enabled ---
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
@@ -42,29 +41,16 @@ public class SubjectSelectionActivity extends AppCompatActivity {
             updateSubjectVisibility(majorGroup);
         }
 
-        // --- Click listeners for navigation ---
+        // CORRECTED: All subjects now open the same detail activity
+        cardMath.setOnClickListener(v -> openSubjectDetail("Toán"));
+        cardPhysics.setOnClickListener(v -> openSubjectDetail("Lý"));
+        cardEnglish.setOnClickListener(v -> openSubjectDetail("Anh"));
+    }
 
-        // Navigate to the generic SubjectDetailActivity for Math
-        cardMath.setOnClickListener(v -> {
-            Intent intent = new Intent(SubjectSelectionActivity.this, SubjectDetailActivity.class);
-            intent.putExtra("SUBJECT_NAME", "Toán");
-            startActivity(intent);
-        });
-
-        // Navigate to the generic SubjectDetailActivity for Physics
-        cardPhysics.setOnClickListener(v -> {
-            Intent intent = new Intent(SubjectSelectionActivity.this, SubjectDetailActivity.class);
-            intent.putExtra("SUBJECT_NAME", "Lý");
-            startActivity(intent);
-        });
-
-        // Navigate to the rich EnglishSubjectActivity for English
-        cardEnglish.setOnClickListener(v -> {
-            Intent intent = new Intent(SubjectSelectionActivity.this, SubjectDetailActivity.class);
-            intent.putExtra("SUBJECT_NAME", "Anh");
-            intent.putExtra("unit_id", 1);
-            startActivity(intent);
-        });
+    private void openSubjectDetail(String subjectName) {
+        Intent intent = new Intent(SubjectSelectionActivity.this, SubjectDetailActivity.class);
+        intent.putExtra("SUBJECT_NAME", subjectName);
+        startActivity(intent);
     }
 
     private void updateSubjectVisibility(String majorGroup) {
@@ -74,8 +60,6 @@ public class SubjectSelectionActivity extends AppCompatActivity {
             cardPhysics.setVisibility(View.VISIBLE);
             cardEnglish.setVisibility(View.VISIBLE);
         } else {
-            // For other groups, you might hide some cards
-            // For example, for group C, you'd hide Math and Physics
             cardMath.setVisibility(View.GONE);
             cardPhysics.setVisibility(View.GONE);
         }
